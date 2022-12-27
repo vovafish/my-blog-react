@@ -21,12 +21,21 @@ const ArticlePage = () => {
   //const { articleId } = params;
   const article = articles.find((article) => article.name === articleId);
 
+  const addUpvote = async () => {
+    const response = await axios.put(`/api/articles/${articleId}/upvote`);
+    const updatedArticle = response.data;
+    setArticleInfo(updatedArticle);
+  };
+
   return !article ? (
     <NotFoundPage />
   ) : (
     <>
       <h1>{article.title}</h1>
-      <p>This article has {articleInfo.upvotes} upvotes</p>
+      <div className="upvotes-section">
+        <button onClick={addUpvote}>Upvote</button>
+        <p>This article has {articleInfo.upvotes} upvotes</p>
+      </div>
       {article.content.map((paragraph, index) => (
         <p key={index}>{paragraph}</p>
       ))}
