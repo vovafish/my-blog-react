@@ -20,22 +20,20 @@ const LoginPage = () => {
 
   return (
     <>
-      <h1>Login</h1>
-      {/* Display error if it actually exists */}
+      <h1>Log In</h1>
       {error && <p className="error">{error}</p>}
       <input
-        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Your email address"
         value={email}
-        type="email"
-        placeholder="Your email address..."
+        onChange={(e) => setEmail(e.target.value)}
       />
       <input
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
         type="password"
-        placeholder="You password..."
+        placeholder="Your password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={logIn}>Login</button>
+      <button onClick={logIn}>Log In</button>
       <Link to="/create-account">Don't have an account? Create one here</Link>
     </>
   );
