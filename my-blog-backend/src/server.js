@@ -11,6 +11,20 @@ admin.initializeApp({
 const app = express();
 app.use(express.json());
 
+app.use(async (req, res, next) => {
+  const { authtoken } = req.header;
+
+  if (authtoken) {
+    try {
+      req.user = await admin.auth().verifyIdToken(authtoken);
+    } catch (e) {
+      res.sendStatus(400);
+    }
+  }
+
+  next();
+});
+
 app.get("/api/articles/:name", async (req, res) => {
   const { name } = req.params;
 
@@ -25,6 +39,7 @@ app.get("/api/articles/:name", async (req, res) => {
 
 app.put("/api/articles/:name/upvote", async (req, res) => {
   const { name } = req.params;
+  const { uid } = req.user;
 
   await db.collection("articles").updateOne(
     { name },
@@ -35,6 +50,8 @@ app.put("/api/articles/:name/upvote", async (req, res) => {
   const article = await db.collection("articles").findOne({ name });
 
   if (article) {
+    const upvoteIds = article.upvoteIds || [];
+    article.canUpvote = uid && !upvoteIds.include(uid);
     res.json(article);
   } else {
     res.send("That article doesn't exist");
