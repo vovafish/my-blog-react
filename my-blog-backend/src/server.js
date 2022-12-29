@@ -3,7 +3,7 @@ import admin from "firebase-admin";
 import express from "express";
 import { db, connectToDb } from "./db.js";
 
-const credentials = JSON.parse(fs.readFileSync("./creadentials.json"));
+const credentials = JSON.parse(fs.readFileSync("./credentials.json"));
 admin.initializeApp({
   credential: admin.credential.cert(credentials),
 });
@@ -58,7 +58,7 @@ app.put("/api/articles/:name/upvote", async (req, res) => {
 
   if (article) {
     const upvoteIds = article.upvoteIds || [];
-    const canUpvote = uid && !upvoteIds.include(uid);
+    const canUpvote = uid && !upvoteIds.includes(uid);
 
     if (canUpvote) {
       await db.collection("articles").updateOne(
