@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { async } from "@firebase/util";
 
 const CreateAccountPage = () => {
   const [email, setEmail] = useState("");
@@ -47,7 +46,7 @@ const CreateAccountPage = () => {
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
       <button onClick={createAccount}>Create Account</button>
-      <Link to="/login">Already have an account? Login here</Link>
+      <Link to="/login">Already have an account? Log in here</Link>
     </>
   );
 };
